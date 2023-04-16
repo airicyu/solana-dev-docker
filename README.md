@@ -8,14 +8,15 @@ It includes:
 - Node v18.16.0, with NPM/YARN
 - Anchor v0.27.0
 
+( Default config is using Solana **Devnet** )
+
 --------
 
 # Pre-requisite
 - Docker already installed and running
 
---------
 
-# Command to start/stop dev container
+# Command: start/stop dev container
 
 Start:
 ```
@@ -27,7 +28,7 @@ Stop:
 ./stop.sh
 ```
 
-# Command to open shell of container 
+# Command: open shell 
 
 ```
 ./shell.sh
@@ -35,7 +36,23 @@ Stop:
 
 --------
 
-# Remark
+# Solana Config Dir
+
+This project's `./solana-config` is the dir for putting solana config stuffs.
+
+The `./solana-config/cli/config.yml` is mounted as `/root/.config/solana/cli/config.yml` inside container, which is the config yml file.
+
+The `./solana-config/id.json` is mounted as `/root/.config/solana/id.json` inside container, which is the default Keypair path.
+
+--------
+
+# Workspace Dir
+
+`./workspace` is an empty dir mounted as `/workspace` inside the container. You may feel free to put your projects under this dir to play around.
+
+--------
+
+# Remarks
 
 ## The first time you build the docker image may take quite some time.
 
