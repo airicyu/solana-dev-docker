@@ -6,7 +6,7 @@ It includes:
 - Rust v1.68
 - Solana-cli v1.14.17
 - Node v18.16.0, with NPM/YARN
-- Anchor v0.27.0
+- Anchor v0.26.0
 
 ( Default config is using Solana **Devnet** )
 

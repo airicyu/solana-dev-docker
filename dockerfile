@@ -32,14 +32,17 @@ RUN curl https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash 
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
-# install Anchor
-ENV ANCHOR_VERSION="v0.27.0"
-RUN cargo install --git https://github.com/coral-xyz/anchor --tag ${ANCHOR_VERSION} anchor-cli --locked
+# # install Anchor
+ENV ANCHOR_VERSION="0.26.0"
 
-# Build a dummy program to bootstrap the BPF SDK (doing this speeds up builds).
+RUN /bin/bash -c "source $NVM_DIR/nvm.sh && npm i -g @project-serum/anchor-cli@${ANCHOR_VERSION}"
+# RUN cargo install --git https://github.com/coral-xyz/anchor --tag ${ANCHOR_VERSION} anchor-cli --locked
+
+# # Build a dummy program to bootstrap the BPF SDK (doing this speeds up builds).
 RUN mkdir -p /tmp && cd /tmp
 WORKDIR /tmp
 RUN /bin/bash -c "source $NVM_DIR/nvm.sh && anchor init dummy && cd ./dummy && anchor build"
+RUN rm -rf /tmp/dummy
 
 WORKDIR /workspace
 ENTRYPOINT ["tail", "-f", "/dev/null"]
