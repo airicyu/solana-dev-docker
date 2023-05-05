@@ -40,15 +40,15 @@ RUN curl https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh | 
     && nvm use $NODE_VERSION \
     && npm i -g yarn
 
-ENV TYPESCRIPT_VERSION="^5.0.0"
 # Install typescript
+ENV TYPESCRIPT_VERSION="^5.0.0"
 RUN /bin/bash -c "source $NVM_DIR/nvm.sh && npm i -g typescript@${TYPESCRIPT_VERSION}"
 
 # Install ts-node
 RUN /bin/bash -c "source $NVM_DIR/nvm.sh && npm i -g ts-node"
 
 # Install Anchor
-ENV ANCHOR_VERSION="0.27.0"
+ENV ANCHOR_VERSION="~0.27.0"
 RUN /bin/bash -c "source $NVM_DIR/nvm.sh && npm i -g @coral-xyz/anchor-cli@${ANCHOR_VERSION}"
 
 # Build a dummy program to bootstrap the BPF SDK (doing this speeds up builds).
@@ -67,4 +67,4 @@ RUN /bin/bash -c "source $NVM_DIR/nvm.sh && yarn install && yarn build"
 RUN rm -rf /tmp/*
 
 WORKDIR /workspace
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+CMD ["tail", "-f", "/dev/null"]
