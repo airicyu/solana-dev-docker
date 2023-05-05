@@ -19,25 +19,49 @@ Base image is ubuntu:22.04, and it installed:
 --------
 
 # Pre-requisite
-- Docker already installed and running
+- Docker installed in your environment
 
+--------
 
-# Command: start/stop dev container
+# How to run it?
 
-Start:
+1) Checkout the code.
+2) Run `./start.sh` to start the container. (It may take some time to build the first time. Be patient.)
+3) Run `./shell.sh` to open Shell.
+4) Done.
+5) When you wanna stop it, just run `./stop.sh` .
+
+# Wanna mount files to the container?
+
+The `workspace` dir is already mounted to the container's `/workspace` dir. You can freely put anythings under this directory.
+
+--------
+
+# Commands
+
+## Start docker container
+
 ```
 ./start.sh
 ```
 
+## Stop docker container
 Stop:
 ```
 ./stop.sh
 ```
 
-# Command: open shell 
+## Open shell
 
 ```
 ./shell.sh
+```
+
+## Rebuild template image
+
+Only need to run this when the `Dockerfile` template updated so you need to rebuild the image.
+```
+./build.sh
 ```
 
 --------
@@ -49,18 +73,4 @@ This project's `./solana-config` is the dir for putting solana config stuffs.
 The `./solana-config/cli/config.yml` is mounted as `/root/.config/solana/cli/config.yml` inside container, which is the config yml file.
 
 The `./solana-config/id.json` is mounted as `/root/.config/solana/id.json` inside container, which is the default Keypair path.
-
---------
-
-# Workspace Dir
-
-`./workspace` is an empty dir mounted as `/workspace` inside the container. You may feel free to put your projects under this dir to play around.
-
---------
-
-# Remarks
-
-## The first time you build the docker image may take quite some time.
-
-It would take some times to download solana-cli & anchor build warm up. The time required depends, but even 30 min or more in some computer/env is not surprise.
 
