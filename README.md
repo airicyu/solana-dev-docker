@@ -26,12 +26,15 @@ Base image is ubuntu:22.04, and it installed:
 # How to run it?
 
 1) Checkout the code.
-2) Run `./start.sh` to start the container. (It may take some time to build the first time. Be patient.)
-3) Run `./shell.sh` to open Shell.
-4) Done.
-5) When you wanna stop it, just run `./stop.sh` .
+2) (Optional) Run `./genWallet.sh` to generate wallet.
+3) Run `./start.sh` to start the container. (It may take some time to build the first time. Be patient.)
+4) Run `./shell.sh` to open Shell.
+5) Done. Feel free to play with the environment!
 
-# Wanna mount files to the container?
+
+P.S. When you wanna stop it, just run `./stop.sh` .
+
+# Wanna mount project files to the container?
 
 The `workspace` dir is already mounted to the container's `/workspace` dir. You can freely put anythings under this directory.
 
@@ -62,6 +65,16 @@ Stop:
 Only need to run this when the `Dockerfile` template updated so you need to rebuild the image.
 ```
 ./build.sh
+```
+
+## Generate wallet
+
+This script will generate new wallet and save private key in `./solana-config/id.json`. (Will not override file)
+
+That's the default wallet inside the container.
+
+```
+./genWallet.sh
 ```
 
 --------
