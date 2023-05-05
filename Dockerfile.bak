@@ -4,7 +4,8 @@ RUN apt-get update && apt-get -y upgrade
 
 # Install base utilities.
 RUN apt-get update -y && apt-get upgrade -y && apt-get install -y \
-build-essential git curl wget jq pkg-config python3-pip libssl-dev libudev-dev
+build-essential git curl wget \
+libssl-dev libudev-dev pkg-config zlib1g-dev llvm clang cmake make libprotobuf-dev protobuf-compiler
 
 RUN mkdir -p /tmp
 WORKDIR /tmp
@@ -14,9 +15,8 @@ RUN wget "http://nz2.archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1
 RUN dpkg -i "libssl1.1_1.1.1f-1ubuntu${LIB_SSL_VERSION}_amd64.deb"
 
 # Install rust.
-# RUN curl --proto '=https' --tlsv1.3 https://sh.rustup.rs -sSf | sh -s -- --default-toolchain stable -y
 RUN curl "https://sh.rustup.rs" -sfo rustup.sh && \
-    sh rustup.sh -y
+    sh rustup.sh -y 
 RUN /bin/bash -c "source \"$HOME/.cargo/env\" rustup component add rustfmt clippy"
 
 # Install solana-cli
@@ -28,7 +28,7 @@ RUN mv solana-release /usr/bin/solana-release
 RUN rm "solana-cli.tar.bz2"
 ENV PATH /usr/bin/solana-release/bin:$PATH
 
-# Install nvm, node, npm
+# Install NVM, NodeJS
 ENV NVM_VERSION="v0.39.1"
 ENV NODE_VERSION="18/*"
 
@@ -41,22 +41,30 @@ RUN curl https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh | 
     && npm i -g yarn
 
 ENV TYPESCRIPT_VERSION="^5.0.0"
-
 # Install typescript
 RUN /bin/bash -c "source $NVM_DIR/nvm.sh && npm i -g typescript@${TYPESCRIPT_VERSION}"
+
 # Install ts-node
 RUN /bin/bash -c "source $NVM_DIR/nvm.sh && npm i -g ts-node"
 
-# install Anchor
-ENV ANCHOR_VERSION="0.26.0"
+# Install Anchor
+ENV ANCHOR_VERSION="0.27.0"
 RUN /bin/bash -c "source $NVM_DIR/nvm.sh && npm i -g @coral-xyz/anchor-cli@${ANCHOR_VERSION}"
-#RUN /bin/bash -c "source $NVM_DIR/nvm.sh && npm i -g @project-serum/anchor-cli@${ANCHOR_VERSION}"
 
 # Build a dummy program to bootstrap the BPF SDK (doing this speeds up builds).
 WORKDIR /tmp
 RUN /bin/bash -c "source $NVM_DIR/nvm.sh && anchor init dummy --no-git"
 WORKDIR /tmp/dummy
-RUN /bin/bash -c "source \"$HOME/.cargo/env\" && source $NVM_DIR/nvm.sh && anchor build && rm -rf /tmp/dummy"
+RUN /bin/bash -c "source \"$HOME/.cargo/env\" && source $NVM_DIR/nvm.sh && anchor build"
+
+# Install amman
+RUN mkdir -p /amman
+WORKDIR /amman
+RUN git clone -b fix/build-issue-client-v0.2.4 https://github.com/karlvlam/amman.git .
+RUN /bin/bash -c "source $NVM_DIR/nvm.sh && yarn install && yarn build"
+
+# Clear temp files
+RUN rm -rf /tmp/*
 
 WORKDIR /workspace
 ENTRYPOINT ["tail", "-f", "/dev/null"]

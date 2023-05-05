@@ -2,11 +2,17 @@
 
 A docker container for Solana development, which already installed most essential tools for you.
 
-It includes:
-- Rust v1.68
-- Solana-cli v1.14.17
-- Node v18.16.0, with NPM/YARN
-- Anchor v0.26.0
+Base image is ubuntu:22.04, and it installed:
+- [Rust stable](https://www.rust-lang.org/)
+- [Solana-cli v1.14.17](https://github.com/solana-labs/solana)
+- NodeJS stack
+  - [NVM v0.39.1](https://github.com/nvm-sh/nvm)
+  - [Node v18.x.x](https://nodejs.org/en)
+  - [NPM](https://www.npmjs.com/) & [YARN](https://www.npmjs.com/package/yarn)
+  - [typescript ^5.0.0](https://www.npmjs.com/package/typescript)
+  - [ts-node](https://www.npmjs.com/package/ts-node)
+- [Anchor v0.27.0](https://www.npmjs.com/package/@coral-xyz/anchor-cli/v/0.27.0)
+- [Amman (forked with fix)](https://github.com/karlvlam/amman/tree/fix/build-issue-client-v0.2.4)
 
 ( Default config is using Solana **Devnet** )
 
