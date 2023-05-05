@@ -11,7 +11,7 @@ Base image is ubuntu:22.04, and it installed:
   - [NPM](https://www.npmjs.com/) & [YARN](https://www.npmjs.com/package/yarn)
   - [typescript ^5.0.0](https://www.npmjs.com/package/typescript)
   - [ts-node](https://www.npmjs.com/package/ts-node)
-- [Anchor v0.27.0](https://www.npmjs.com/package/@coral-xyz/anchor-cli/v/0.27.0)
+- [Anchor v0.27.0](https://www.npmjs.com/package/@coral-xyz/anchor-cli)
 - [Amman (forked with fix)](https://github.com/karlvlam/amman/tree/fix/build-issue-client-v0.2.4)
 
 ( Default config is using Solana **Devnet** )
@@ -49,7 +49,7 @@ The `workspace` dir is already mounted to the container's `/workspace` dir. You 
 ```
 
 ## Stop docker container
-Stop:
+
 ```
 ./stop.sh
 ```
