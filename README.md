@@ -4,7 +4,7 @@ A docker container for Solana development, which already installed most essentia
 
 Base image is ubuntu:22.04, and it installed:
 - [Rust 1.72.0](https://www.rust-lang.org/)
-- [Solana-cli v1.14.26](https://github.com/solana-labs/solana)
+- [Solana-cli v1.16.12](https://github.com/solana-labs/solana)
 - NodeJS stack
   - [NVM v0.39.1](https://github.com/nvm-sh/nvm)
   - [Node v18.x.x](https://nodejs.org/en)

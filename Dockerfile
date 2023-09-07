@@ -20,7 +20,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs/ | sh -s -- --defa
 RUN /bin/bash -c "source \"$HOME/.cargo/env\" rustup component add rustfmt clippy"
 
 # Install solana-cli
-ENV SOLANA_CLI_VERSION="v1.14.26"
+ENV SOLANA_CLI_VERSION="v1.16.12"
 WORKDIR /tmp
 RUN curl -L "https://github.com/solana-labs/solana/releases/download/$SOLANA_CLI_VERSION/solana-release-x86_64-unknown-linux-gnu.tar.bz2" -o "solana-cli.tar.bz2"
 RUN tar jxf "solana-cli.tar.bz2"
