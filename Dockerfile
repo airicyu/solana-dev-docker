@@ -10,17 +10,17 @@ libssl-dev libudev-dev pkg-config zlib1g-dev llvm clang cmake make libprotobuf-d
 RUN mkdir -p /tmp
 WORKDIR /tmp
 
-ENV LIB_SSL_VERSION=2.18
+ENV LIB_SSL_VERSION=2.19
 RUN wget "http://nz2.archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu${LIB_SSL_VERSION}_amd64.deb"
 RUN dpkg -i "libssl1.1_1.1.1f-1ubuntu${LIB_SSL_VERSION}_amd64.deb"
 
 # Install rust.
-RUN curl "https://sh.rustup.rs" -sfo rustup.sh && \
-    sh rustup.sh -y 
+ENV RUST_VERSION="1.72.0"
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs/ | sh -s -- --default-toolchain=$RUST_VERSION -y
 RUN /bin/bash -c "source \"$HOME/.cargo/env\" rustup component add rustfmt clippy"
 
 # Install solana-cli
-ENV SOLANA_CLI_VERSION="v1.14.17"
+ENV SOLANA_CLI_VERSION="v1.14.26"
 WORKDIR /tmp
 RUN curl -L "https://github.com/solana-labs/solana/releases/download/$SOLANA_CLI_VERSION/solana-release-x86_64-unknown-linux-gnu.tar.bz2" -o "solana-cli.tar.bz2"
 RUN tar jxf "solana-cli.tar.bz2"
@@ -29,7 +29,7 @@ RUN rm "solana-cli.tar.bz2"
 ENV PATH /usr/bin/solana-release/bin:$PATH
 
 # Install NVM, NodeJS
-ENV NVM_VERSION="v0.39.1"
+ENV NVM_VERSION="v0.39.5"
 ENV NODE_VERSION="18/*"
 
 RUN mkdir /usr/local/nvm
@@ -41,21 +41,15 @@ RUN curl https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh | 
     && npm i -g yarn
 
 # Install typescript
-ENV TYPESCRIPT_VERSION="^5.0.0"
+ENV TYPESCRIPT_VERSION="^5.2.2"
 RUN /bin/bash -c "source $NVM_DIR/nvm.sh && npm i -g typescript@${TYPESCRIPT_VERSION}"
 
 # Install ts-node
 RUN /bin/bash -c "source $NVM_DIR/nvm.sh && npm i -g ts-node"
 
 # Install Anchor
-ENV ANCHOR_VERSION="~0.27.0"
+ENV ANCHOR_VERSION="~0.28.0"
 RUN /bin/bash -c "source $NVM_DIR/nvm.sh && npm i -g @coral-xyz/anchor-cli@${ANCHOR_VERSION}"
-
-# Build a dummy program to bootstrap the BPF SDK (doing this speeds up builds).
-WORKDIR /tmp
-RUN /bin/bash -c "source $NVM_DIR/nvm.sh && anchor init dummy --no-git"
-WORKDIR /tmp/dummy
-RUN /bin/bash -c "source \"$HOME/.cargo/env\" && source $NVM_DIR/nvm.sh && anchor build"
 
 # Install amman
 RUN mkdir -p /amman
